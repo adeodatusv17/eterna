@@ -1,9 +1,10 @@
-// FIX: Require instead of import to avoid Jest ESM issues
-const pRetry = require("p-retry");
+import pRetry from "p-retry";
 
 export function withRetry<T>(fn: () => Promise<T>) {
   return pRetry(fn, {
-    retries: 3,
-    minTimeout: 200,
+    retries: 2,
+    onFailedAttempt: (err: any) => {
+      console.error("Retry attempt failed:", err.message);
+    }
   });
 }
