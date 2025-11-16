@@ -1,28 +1,43 @@
 import { filterByPeriod } from "../utils/filterSort";
 import { Token } from "../types/token";
 
-const tokens: Token[] = [
-  { token_address: "1", price_1hr_change: 5 },
-  { token_address: "2", price_24h_change: 10 },
-  { token_address: "3", price_7d_change: 15 },
-];
-
 describe("filterByPeriod()", () => {
-  test("filters 1h", () => {
+  const now = Date.now();
+
+  const tokens: Token[] = [
+    {
+      token_address: "1",
+      created_at: now - 30 * 60 * 1000, // 30 minutes ago (inside 1h)
+    },
+    {
+      token_address: "2",
+      created_at: now - 2 * 60 * 60 * 1000, // 2 hours ago (inside 24h)
+    },
+    {
+      token_address: "3",
+      created_at: now - 3 * 24 * 60 * 60 * 1000, // 3 days ago (inside 7d)
+    },
+    {
+      token_address: "4",
+      created_at: now - 10 * 24 * 60 * 60 * 1000, // 10 days ago (OUTSIDE 7d)
+    },
+  ];
+
+  test("filters by 1h", () => {
     const out = filterByPeriod(tokens, "1h");
     expect(out.length).toBe(1);
-    expect(out[0].price_1hr_change).toBe(5);
+    expect(out[0].token_address).toBe("1");
   });
 
-  test("filters 24h", () => {
+  test("filters by 24h", () => {
     const out = filterByPeriod(tokens, "24h");
-    expect(out.length).toBe(1);
-    expect(out[0].price_24h_change).toBe(10);
+    expect(out.length).toBe(2); // token 1 + 2
+    expect(out.map(t => t.token_address)).toEqual(["1", "2"]);
   });
 
-  test("filters 7d", () => {
+  test("filters by 7d", () => {
     const out = filterByPeriod(tokens, "7d");
-    expect(out.length).toBe(1);
-    expect(out[0].price_7d_change).toBe(15);
+    expect(out.length).toBe(3); // tokens 1, 2, 3
+    expect(out.map(t => t.token_address)).toEqual(["1", "2", "3"]);
   });
 });

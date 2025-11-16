@@ -8,14 +8,14 @@ export interface Token {
   market_cap_usd?: number;
   liquidity_usd?: number;
 
-
   price_1hr_change?: number;
   price_24h_change?: number;
   price_7d_change?: number;
 
-
   protocol?: string;
   updated_at?: number;
+
+  created_at?: number;      // ← IMPORTANT
   transaction_count?: number;
   source?: string[];
 }
