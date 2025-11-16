@@ -1,6 +1,7 @@
 # Meme Coin Dashboard
 
 A lightweight real-time meme coin aggregation backend with multi-DEX fetching, merging, caching, filtering, and WebSocket updates.
+Render
 
 ## Overview
 
@@ -16,7 +17,19 @@ Supports filtering, sorting, pagination, and configurable cache TTL/refresh inte
 - Fastify  
 - Redis (ioredis)  
 - Socket.IO  
-- Jest + Supertest  
+- Jest + Supertest
+  
+##  Deployment
+This service is deployed on Render.
+
+### Service Entry Points
+- Health: https://memecoindb.onrender.com/health  
+- API root: https://memecoindb.onrender.com/api/tokens
+
+
+
+
+
 
 ## Unit test coverage
 List of All 14 Tests 
